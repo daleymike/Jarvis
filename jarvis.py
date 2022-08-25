@@ -13,7 +13,7 @@ passwordFD = os.getenv('FD_PASS')
 userNameFD = os.getenv('FD_USER')
 
 engine = pyttsx3.init()
-engine.setProperty('rate', 200)
+engine.setProperty('rate', 250)
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[0].id)
 
@@ -102,14 +102,8 @@ def launchLookUp():
         try:
             search = r.recognize_google(audio)
             print(f"Search: {search}")
-            search.split(" ")
-            newSearch = ''
-            for i in search:
-                print(i)
-                newSearch += i + '+'
-            
             browser = webdriver.Chrome(ChromeDriverManager().install())
-            browser.get('https://www.google.com/search?q=' + newSearch + '&sxsrf=ALiCzsZLrK1k2hfmLz1Rq1x0fvQ2j5KjTQ%3A1661443550228&ei=3p0HY5OnDYSy5NoPn4alqAE&ved=0ahUKEwiTjoDFr-L5AhUEGVkFHR9DCRUQ4dUDCA4&uact=5&oq=banana+is+cool+da&gs_lcp=Cgdnd3Mtd2l6EAMyBQghEKABMgUIIRCgATIFCCEQoAEyCAghEB4QFhAdMggIIRAeEBYQHTIICCEQHhAWEB0yCAghEB4QFhAdMggIIRAeEBYQHTIICCEQHhAWEB0yCAghEB4QFhAdOgcIABBHELADOggIABAeEBYQCjoGCAAQHhAWOgUIIRCrAjoKCCEQHhAPEBYQHUoECEEYAEoECEYYAFC5B1jcCWCHEGgBcAF4AIABYYgB8AGSAQEzmAEAoAEByAEIwAEB&sclient=gws-wiz')
+            browser.get('https://www.google.com/search?q=' + search + '&sxsrf=ALiCzsZLrK1k2hfmLz1Rq1x0fvQ2j5KjTQ%3A1661443550228&ei=3p0HY5OnDYSy5NoPn4alqAE&ved=0ahUKEwiTjoDFr-L5AhUEGVkFHR9DCRUQ4dUDCA4&uact=5&oq=banana+is+cool+da&gs_lcp=Cgdnd3Mtd2l6EAMyBQghEKABMgUIIRCgATIFCCEQoAEyCAghEB4QFhAdMggIIRAeEBYQHTIICCEQHhAWEB0yCAghEB4QFhAdMggIIRAeEBYQHTIICCEQHhAWEB0yCAghEB4QFhAdOgcIABBHELADOggIABAeEBYQCjoGCAAQHhAWOgUIIRCrAjoKCCEQHhAPEBYQHUoECEEYAEoECEYYAFC5B1jcCWCHEGgBcAF4AIABYYgB8AGSAQEzmAEAoAEByAEIwAEB&sclient=gws-wiz')
         except:
             speak("I don't recognize that search. Please try again")
             launchLookUp()
