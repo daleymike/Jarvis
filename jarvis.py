@@ -13,6 +13,7 @@ passwordFD = os.getenv('FD_PASS')
 userNameFD = os.getenv('FD_USER')
 
 engine = pyttsx3.init()
+engine.setProperty('rate', 200)
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[0].id)
 
@@ -77,17 +78,41 @@ def launchNews():
     r = sr.Recognizer()
     with sr.Microphone() as source:
         speak("What type of news would you like?")
-        print("Options: \n World \n U.S \n Politics \n Business \n Tech \n Health \n Sports")
+        print("Options: \n World \n U.S \n Politics \n Business \n Technology \n Health \n Sports")
         audio = r.listen(source)
 
         try:
             topic = r.recognize_google(audio)
             print(f"Topic: {topic}")
             browser = webdriver.Chrome(ChromeDriverManager().install())
-            browser.get('https://www.nytimes.com/section/' + topic)
+            browser.get('https://www.nytimes.com/section/' + topic.lower())
         except:
             speak("I don't recognize that topic. Please try again")
             launchNews()
+
+        while True:
+            pass
+
+def launchLookUp():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        speak("What would you like to Google?")
+        audio = r.listen(source)
+
+        try:
+            search = r.recognize_google(audio)
+            print(f"Search: {search}")
+            search.split(" ")
+            newSearch = ''
+            for i in search:
+                print(i)
+                newSearch += i + '+'
+            
+            browser = webdriver.Chrome(ChromeDriverManager().install())
+            browser.get('https://www.google.com/search?q=' + newSearch + '&sxsrf=ALiCzsZLrK1k2hfmLz1Rq1x0fvQ2j5KjTQ%3A1661443550228&ei=3p0HY5OnDYSy5NoPn4alqAE&ved=0ahUKEwiTjoDFr-L5AhUEGVkFHR9DCRUQ4dUDCA4&uact=5&oq=banana+is+cool+da&gs_lcp=Cgdnd3Mtd2l6EAMyBQghEKABMgUIIRCgATIFCCEQoAEyCAghEB4QFhAdMggIIRAeEBYQHTIICCEQHhAWEB0yCAghEB4QFhAdMggIIRAeEBYQHTIICCEQHhAWEB0yCAghEB4QFhAdOgcIABBHELADOggIABAeEBYQCjoGCAAQHhAWOgUIIRCrAjoKCCEQHhAPEBYQHUoECEEYAEoECEYYAFC5B1jcCWCHEGgBcAF4AIABYYgB8AGSAQEzmAEAoAEByAEIwAEB&sclient=gws-wiz')
+        except:
+            speak("I don't recognize that search. Please try again")
+            launchLookUp()
 
         while True:
             pass
@@ -100,7 +125,7 @@ def command():
     r = sr.Recognizer()
     with sr.Microphone() as source:
         speak("Hello. I'm Jarvis, your virtual assistant. What can I help you with?")
-        print("Jarvis Active")
+        print("Jarvis Active. Available commands: \n Baseball \n Joke \n Weather \n News")
         audio = r.listen(source)
         
         try:
@@ -108,12 +133,14 @@ def command():
             print(f"user: {query}")
             if 'baseball' in query:
                 launchBrowser()
-            if 'joke' in query:
+            elif 'joke' in query:
                 speak('Am I a clown? Do I amuse you?')
-            if 'weather' in query:
+            elif 'weather' in query:
                 launchWeather()
-            if 'news' in query:
+            elif 'news' in query:
                 launchNews()
+            elif 'google' in query or 'Google' in query or 'look up' in query:
+                launchLookUp()
             else:
                  speak("I'm sorry, I don't recognize that command. Please try again.")
                  command()       
