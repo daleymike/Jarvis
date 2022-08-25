@@ -53,7 +53,6 @@ def launchBrowser():
     while True:
         pass
 
-    return browser
 
 def launchWeather():
     r = sr.Recognizer()
@@ -144,8 +143,25 @@ def command():
 
     
 
+def listener():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print('\a')
+        print("Listening...")
+        audio = r.listen(source)
 
-command()
+        try:
+            query = r.recognize_google(audio)
+
+            if 'jarvis' in query or 'Jarvis' in query:
+                command()
+            else:
+                listener()
+        except:
+            print("Error Occured.")
+
+
+listener()
 
 
 
