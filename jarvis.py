@@ -67,10 +67,30 @@ def launchWeather():
             browser = webdriver.Chrome(ChromeDriverManager().install())
             browser.get('https://weather.com/weather/today/l/' + zipCode + ':4:US')
         except:
-            print("Not recognized.")
+            speak("I don't recognize that zip code. Please try again")
+            launchWeather()
 
     while True:
         pass
+
+def launchNews():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        speak("What type of news would you like?")
+        print("Options: \n World \n U.S \n Politics \n Business \n Tech \n Health \n Sports")
+        audio = r.listen(source)
+
+        try:
+            topic = r.recognize_google(audio)
+            print(f"Topic: {topic}")
+            browser = webdriver.Chrome(ChromeDriverManager().install())
+            browser.get('https://www.nytimes.com/section/' + topic)
+        except:
+            speak("I don't recognize that topic. Please try again")
+            launchNews()
+
+        while True:
+            pass
 
 def speak(audio):
     engine.say(audio)
@@ -79,8 +99,8 @@ def speak(audio):
 def command():
     r = sr.Recognizer()
     with sr.Microphone() as source:
-        speak("What can I do for you?")
-        print("What can I do for you...")
+        speak("Hello. I'm Jarvis, your virtual assistant. What can I help you with?")
+        print("Jarvis Active")
         audio = r.listen(source)
         
         try:
@@ -92,10 +112,14 @@ def command():
                 speak('Am I a clown? Do I amuse you?')
             if 'weather' in query:
                 launchWeather()
-                    
+            if 'news' in query:
+                launchNews()
+            else:
+                 speak("I'm sorry, I don't recognize that command. Please try again.")
+                 command()       
             return query
         except:
-            print("Not recognized. Try again.")
+            print("Try Again.")
 
     
 
