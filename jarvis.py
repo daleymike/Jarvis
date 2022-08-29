@@ -118,7 +118,7 @@ def command():
     r = sr.Recognizer()
     with sr.Microphone() as source:
         speak("Hello. I'm Jarvis, your virtual assistant. What can I help you with?")
-        print("Jarvis Active. Available commands: \n Baseball \n Joke \n Weather \n News")
+        print("Jarvis Active. Available commands: \n Baseball \n Joke \n Google \n Weather \n News")
         audio = r.listen(source)
         
         try:
@@ -143,25 +143,25 @@ def command():
 
     
 
-def listener():
-    r = sr.Recognizer()
-    with sr.Microphone() as source:
-        print('\a')
-        print("Listening...")
-        audio = r.listen(source)
+# def listener():
+#     r = sr.Recognizer()
+#     with sr.Microphone() as source:
+#         print('\a')
+#         print("Listening...")
+#         audio = r.listen(source)
 
-        try:
-            query = r.recognize_google(audio)
+#         try:
+#             query = r.recognize_google(audio)
 
-            if 'jarvis' in query or 'Jarvis' in query:
-                command()
-            else:
-                listener()
-        except:
-            print("Error Occured.")
+#             if 'jarvis' in query or 'Jarvis' in query:
+#                 command()
+#             else:
+#                 listener()
+#         except:
+#             print("Error Occured.")
 
 
-listener()
+command()
 
 
 
